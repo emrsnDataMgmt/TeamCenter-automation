@@ -17,8 +17,8 @@ import win32com.client
 import PySimpleGUI as sg
 from pydomo import Domo
 
-domo = Domo('c7b587d1-08a8-4931-b71a-bb793fcd82de',
-            '1fd4cda307f6df15bb52e3183fab9e387e1d95c044dfa0b3c4fe9f80c1423e37')
+domo = Domo('key',
+            'key')
 
 def read_excel_file(file_name, sheet_name):
     df = pd.read_excel(file_name, sheet_name=sheet_name)
@@ -135,7 +135,7 @@ def send_mail(ol, subject, body, to, cc, attachment=None):
     
 # move from downloads folder to another folder
 def move_file(parts, folder):
-    path = os.path.expanduser('~') + '\\OneDrive - Emerson\\Subash.Bose\\Downloads'
+    path = os.path.expanduser('~') + '\\OneDrive - Emerson\\name\\Downloads'
     for part in parts:
         for file in os.listdir(path):
             if part in file:
@@ -159,8 +159,8 @@ if __name__ == '__main__':
         
         if event == 'Download PDFs':
             # Define variables
-            user = 'subash.bose'
-            password = 'Guts2787'
+            user = 'user'
+            password = 'pass'
             
 
             supplier = pd.read_excel('Supplier Contact.xlsx')
@@ -173,7 +173,7 @@ if __name__ == '__main__':
             AND ASL_ORG_CODE = 'P56'
             """
 
-            df = domo.ds_query('3d555ed9-a5dd-4002-9036-48523149b9d9', query)
+            df = domo.ds_query('key', query)
             
             # ask user for input file
             file_name = sg.popup_get_file('Please select the input file', title='Teamcenter Automation', file_types=(("Excel Files", "*.xlsx"),))
@@ -182,7 +182,7 @@ if __name__ == '__main__':
             # Read the excel file and get the parts list
             parts = read_excel_file(file_name, sheet_name)
             # Initialize the webdriver
-            chrome_driver = os.path.expanduser('~') + '\\OneDrive - Emerson\\Subash.Bose\\Documents\\Team Center Drawings\\Teamcenter automation\\chromedriver.exe'
+            chrome_driver = os.path.expanduser('~') + '\\OneDrive - Emerson\\name\\Documents\\Team Center Drawings\\Teamcenter automation\\chromedriver.exe'
             driver = webdriver.Chrome(chrome_driver)
             # Login to the website
             login_to_website(driver, user, password)
@@ -206,7 +206,7 @@ if __name__ == '__main__':
             else:
                 out.to_csv('output.csv', index=False)
             
-            move_file(parts, os.path.expanduser('~') + '\\OneDrive - Emerson\\Subash.Bose\\Documents\\Team Center Drawings\\Teamcenter Downloads')
+            move_file(parts, os.path.expanduser('~') + '\\OneDrive - Emerson\\name\\Documents\\Team Center Drawings\\Teamcenter Downloads')
             
             # Close the webdriver
             driver.quit()
@@ -220,7 +220,7 @@ if __name__ == '__main__':
                 # if status is success, send email
                 if out['Status'][i] == 'Success' and out['Email Sent'][i] != 'Yes' and out['Contact email'][i] != 'None' and out['Contact email'][i] != 'nan' and out['Contact email'][i] != '':
                     subject = f"Emerson Dubai Part number {out['Part#'][i]} Drawing Revision {out['Revision#'][i]}"
-                    body = f"Hi {out['Supplier Name'][i]},\n\nFind the attached latest revision for the drawings. Please update in your system and acknowledge the reciept.\n\nRegards,\nSubash Bose"
+                    body = f"Hi {out['Supplier Name'][i]},\n\nFind the attached latest revision for the drawings. Please update in your system and acknowledge the reciept.\n\nRegards,\nname"
                     # to = out['Contact email'][i]
                     
                     # to is a list of all the email ids
@@ -234,7 +234,7 @@ if __name__ == '__main__':
                         cc = out['Contact email B'][i].split(';')
                     else:
                         cc = ''
-                    attachment = os.path.expanduser('~') + '\\OneDrive - Emerson\\Subash.Bose\\Documents\\Team Center Drawings\\Teamcenter Downloads\\' + out['Part#'][i] + '.pdf'
+                    attachment = os.path.expanduser('~') + '\\OneDrive - Emerson\\name\\Documents\\Team Center Drawings\\Teamcenter Downloads\\' + out['Part#'][i] + '.pdf'
                     send_mail(ol, subject, body, to, cc, attachment)
                     # add a column to the dataframe with email sent status as yes and date
                     stat = 'Yes'
